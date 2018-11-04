@@ -129,7 +129,7 @@ public class GraphingManager : MonoBehaviour {
 				//SunPower
 				//print(float.Parse(data[counter++].Split(',')[getIndexOf(graph)]));
 				float val = 0;
-				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val)) 
+				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) || val < 0) 
 				{
 					graphs[graph].addPoint(val);				
 							
@@ -138,7 +138,7 @@ public class GraphingManager : MonoBehaviour {
 			}
 			else{
 				float val = 0;
-				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val)) 
+				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) || val < 0) 
 				{
 					graphs[graph].addPoint(val);				
 							
@@ -163,9 +163,10 @@ public class GraphingManager : MonoBehaviour {
 				float distance = Mathf.Sqrt(Mathf.Pow(nodePointX -nodePointX1,2) + Mathf.Pow(graphs[graph].points[point]-graphs[graph].points[point+1],2));  
 				float angle = Mathf.Rad2Deg*Mathf.Atan((graphs[graph].points[point]-graphs[graph].points[point+1])/(nodePointX-nodePointX1));
 				float xNew = (nodePointX +nodePointX1) / 2 - graphs[graph].width / 2;
-				float yNew = (graphs[graph].points[point] +graphs[graph].points[point+1]) / 2;
+				float yNew = (graphs[graph].points[point] + graphs[graph].points[point+1]) / 2; // * th
 
-
+				yNew *= graphs[graph].height / graphs[graph].yAxisMax ;
+				yNew  -= graphs[graph].height / 2
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().sizeDelta = new Vector2(distance, 10);
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0,0,angle));	
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().localPosition = new Vector2(xNew, yNew);
@@ -196,23 +197,29 @@ public class GraphingManager : MonoBehaviour {
         switch (value)
         {
             case 0:
-                return "Total";
+                return "Hot Water Total";
             case 1:
-                return "KL";
+                return "Chilled Water Total";
             case 2:
-                return "COB";
+                return "Hot Water Kolligian Library";
             case 3:
-                return "SE1";
+                return "Chilled Water Kolligian Library";
             case 4:
-                return "SE2";
+                return "Hot Water COB";
             case 5:
-                return "SSB";
+                return "Chilled Water COB";
             case 6:
-                return "SSM";
+                return "Hot Water Sceince and Engineering 1";
             case 7:
-                return "SAAC";
+                return "Chilled Water Science and Engineering 1";
             case 8:
-                return "Total Sun Power";
+                return "Hot Water Science and Engineering 2";
+			case 9:
+				return "Chilled Water Science and Engineering 2";
+			case 10:
+				return "Hot Water Student Service Building";
+			case 11:
+				return "Chilled Water Student Service Building";
         }
 		return "";
     }

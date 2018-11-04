@@ -7,11 +7,11 @@ public class GraphElement
     public float positionY;
     public float width;
     public float height;
-    string graphTitle;
-    string xAxisName;
+    public string graphTitle;
+    public string xAxisName;
     string yAxisName;
     float xAxisMax;
-    float yAxisMax;
+    public float yAxisMax;
     public float[] points; 
     int numOfPoints = 30;
     const int positionMin = 0;
