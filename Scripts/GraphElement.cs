@@ -14,18 +14,18 @@ public class GraphElement
     public float yAxisMax;
     public float[] points; 
     int numOfPoints = 30;
-    const int positionMin = 0;
-    const int positionMax = 1500;
-    const int heightMax = 1000;
+    const int positionMin = 100;
+    const int positionMax = 600;
+    const int heightMax = 300;
     const int heightMin = 300;
     Random r = new Random();
     
-    public GraphElement(string graphTitle,string yName = "Value", string xName = "Time"){
+    public GraphElement(string graphTitle, int position){
         numOfPoints = GraphingManager.MAX_NUMBER_POINTS;
-        this.positionX = r.Next(positionMin,positionMax);
-        this.positionY = r.Next(positionMin,positionMax);
-        this.width = r.Next(heightMin,heightMax);
-        this.height = r.Next(heightMin,heightMax);
+        this.positionX = position * 230;
+        this.positionY = 100;
+        this.width = 180;
+        this.height = 100;
         this.xAxisName = "Time";
         this.yAxisName = "Values";
         this.graphTitle = graphTitle;  
