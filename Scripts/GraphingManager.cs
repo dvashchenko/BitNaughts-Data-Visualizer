@@ -10,8 +10,8 @@ public class GraphingManager : MonoBehaviour {
 	string[] data;
 	//public string val = "chw_water";
 
-	private const short MAX_NUMBER_GRAPHS = 1;
-	public const short MAX_NUMBER_POINTS = 5;
+	private const short MAX_NUMBER_GRAPHS = 17;
+	public const short MAX_NUMBER_POINTS = 20;
 	GraphElement[] graphs;	
 	GameObject[] graphPrefab;
 	public GameObject graphTemplate;
@@ -119,31 +119,43 @@ public class GraphingManager : MonoBehaviour {
 		//FORCE UPDATE
 		for (int graph = 0; graph < MAX_NUMBER_GRAPHS; graph++) {
 			
-			/*
+			graphPrefab[graph].GetComponent<RectTransform>().GetChild(0).GetChild(0).GetComponent<Text>().text = "0 to " + graphs[graph].yAxisMax;
+			graphPrefab[graph].GetComponent<RectTransform>().GetChild(1).GetChild(0).GetComponent<Text>().text = data[counter++].Split(',')[0];
+			graphPrefab[graph].GetComponent<RectTransform>().GetChild(2).GetComponent<Text>().text = graphs[graph].graphTitle;
 			
-				push csv data
-			 */			
+						
+
+
 			//Checks if it's the sun power									//if graph == 0; index == 4
 			if(graph == 8)
 			{
-				//SunPower
+
+			 	//SunPower
 				//print(float.Parse(data[counter++].Split(',')[getIndexOf(graph)]));
 				float val = 0;
-				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) || val < 0) 
+				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) ) 
 				{
-					graphs[graph].addPoint(val);				
-							
+					if ( val > 0)
+					{
+						graphs[graph].addPoint(val);	
+					}
+					else{graphs[graph].addPoint(0f);}
 				}
-					else { graphs[graph].addPoint(0f);}		
+				else{graphs[graph].addPoint(0f);}					
+	
 			}
 			else{
 				float val = 0;
-				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) || val < 0) 
+				if (float.TryParse(data[counter++].Split(',')[getIndexOf(graph)], out val) ) 
 				{
-					graphs[graph].addPoint(val);				
-							
-				}		
-				else { graphs[graph].addPoint(0f);}		
+					if ( val > 0)
+					{
+						graphs[graph].addPoint(val);
+					}
+					else{graphs[graph].addPoint(0f);}
+				}
+				else{graphs[graph].addPoint(0f);}
+		
 			}
 			
 
@@ -151,7 +163,7 @@ public class GraphingManager : MonoBehaviour {
 		 	graphPrefab[graph].GetComponent<RectTransform>().sizeDelta = new Vector2(graphs[graph].width, graphs[graph].height);
 			//UPDATE NODES
 			for (int point = 0; point < MAX_NUMBER_POINTS; point++) {
-				Vector2 new_pos = new Vector2((float)point/(float)MAX_NUMBER_POINTS * (float)graphs[graph].width - graphs[graph].width / 2, graphs[graph].points[point]);
+				Vector2 new_pos = new Vector2((float)point/(float)MAX_NUMBER_POINTS * (float)graphs[graph].width - graphs[graph].width / 2, graphs[graph].points[point] - graphs[graph].height / 2);
 				graphPrefab[graph].GetComponent<NodeManager>().points[point].GetComponent<RectTransform>().localPosition = new_pos;
 			}	
 			//UPDATE LINES
@@ -163,10 +175,9 @@ public class GraphingManager : MonoBehaviour {
 				float distance = Mathf.Sqrt(Mathf.Pow(nodePointX -nodePointX1,2) + Mathf.Pow(graphs[graph].points[point]-graphs[graph].points[point+1],2));  
 				float angle = Mathf.Rad2Deg*Mathf.Atan((graphs[graph].points[point]-graphs[graph].points[point+1])/(nodePointX-nodePointX1));
 				float xNew = (nodePointX +nodePointX1) / 2 - graphs[graph].width / 2;
-				float yNew = (graphs[graph].points[point] + graphs[graph].points[point+1]) / 2; // * th
+				float yNew = (graphs[graph].points[point] + graphs[graph].points[point+1]) / 2 - graphs[graph].height / 2; // * th
 
-				yNew *= graphs[graph].height / graphs[graph].yAxisMax ;
-				yNew  -= graphs[graph].height / 2
+				
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().sizeDelta = new Vector2(distance, 10);
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0,0,angle));	
 				graphPrefab[graph].GetComponent<NodeManager>().lines[point].GetComponent<RectTransform>().localPosition = new Vector2(xNew, yNew);
@@ -220,33 +231,22 @@ public class GraphingManager : MonoBehaviour {
 				return "Hot Water Student Service Building";
 			case 11:
 				return "Chilled Water Student Service Building";
+			case 12:
+				return "Hot Water Social Sciences and Management Building";
+			case 13:
+				return "Chilled Water Social Sciences and Management Building";
+			case 14:
+				return "Hot Water Student Activities and Athletics Center";
+			case 15:
+				return "Chilled Water Student Activities and Athletics Center";
+			case 16:								
+				return "Total SunPower";																
         }
 		return "";
     }
 
 	public int getIndexOf(int value){
-		 switch (value)
-        {
-            case 0:
-                return 1;
-            case 1:
-                return 3;
-            case 2:
-                return 5;
-            case 3:
-                return 7;
-            case 4:
-                return 9;
-            case 5:
-                return 11;
-            case 6:
-                return 13;
-            case 7:
-                return 15;
-            case 8:
-                return 17;
-        }
-		return -1;
+		return value;
 	}
 	
 }

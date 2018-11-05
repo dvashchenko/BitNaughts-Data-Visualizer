@@ -48,6 +48,7 @@ public class GraphElement
         {
             yAxisMax = val;             
         }
+        points[numOfPoints - 1 ] *= height / yAxisMax ;
 
         return points;            
     }
