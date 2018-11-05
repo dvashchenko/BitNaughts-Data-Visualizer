@@ -212,19 +212,19 @@ public class GraphingManager : MonoBehaviour {
             case 1:
                 return "Chilled Water Total";
             case 2:
-                return "Hot Water Kolligian Library";
+                return "Hot Water KOL";
             case 3:
-                return "Chilled Water Kolligian Library";
+                return "Chilled Water KOL";
             case 4:
                 return "Hot Water COB";
             case 5:
                 return "Chilled Water COB";
             case 6:
-                return "Hot Water Sceince and Engineering 1";
+                return "Hot Water SE1";
             case 7:
-                return "Chilled Water Science and Engineering 1";
+                return "Chilled Water SE1";
             case 8:
-                return "Hot Water Science and Engineering 2";
+                return "Hot Water SE2";
 			case 9:
 				return "Chilled Water Science and Engineering 2";
 			case 10:
